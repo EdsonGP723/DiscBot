@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 import os
 import asyncio
 from datetime import datetime, time, timedelta
+from zoneinfo import ZoneInfo
 
 load_dotenv()
 token = os.getenv("DISCORD_TOKEN")
@@ -19,11 +20,13 @@ intents.dm_messages = True
 
 bot = commands.Bot(command_prefix='!', intents=intents)
 
+zona = ZoneInfo("America/Mexico_City")
+
 
 async def send_daily_dm(user_id, message, target_time):
     await bot.wait_until_ready()
     while not bot.is_closed():
-        now = datetime.now()
+        now = datetime.now(zona)
         send_time = datetime.combine(now.date(), target_time)
         if send_time < now:
             send_time += timedelta(days=1)
