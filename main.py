@@ -45,4 +45,11 @@ async def on_ready():
     hora_objetivo = time(10, 00)
     bot.loop.create_task(send_daily_dm(user_id, mensaje, hora_objetivo))
 
+
+@bot.command()
+async def dm(ctx, *, message):
+    user = await bot.fetch_user(os.getenv("USER_ID"))
+    await user.send(message)
+    await ctx.author.send(f"Mensaje enviado a {user.name} que dice: {message}")
+
 bot.run(token, log_handler=handler, log_level=logging.DEBUG)
