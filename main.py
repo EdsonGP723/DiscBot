@@ -27,7 +27,8 @@ async def send_daily_dm(user_id, message, target_time):
     await bot.wait_until_ready()
     while not bot.is_closed():
         now = datetime.now(zona)
-        send_time = datetime.combine(now.date(), target_time)
+        send_time = datetime.combine(
+            now.date(), target_time, tzinfo=zona)
         if send_time < now:
             send_time += timedelta(days=1)
         wait_seconds = (send_time - now).total_seconds()
